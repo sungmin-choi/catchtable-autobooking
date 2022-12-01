@@ -9,7 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import src.config as config
+import config
 import pyperclip
 
 # 아이디와 패스워드를 여기에 입력
@@ -17,7 +17,7 @@ import pyperclip
 ID = "namja306@naver.com"
 PW = "XXXXXX"
 LOGINURL = "https://app.catchtable.co.kr/ct/login"
-URL = "https://app.catchtable.co.kr/ct/shop/sushidawn"
+URL = "https://app.catchtable.co.kr/ct/shop/bongyeondang"
 # 월 은 숫자뒤에 '월' 자도 부텨주세요 예) 11월, 12월, 1월 
 BOOKING_MONTH='12월'
 BOOKING_DAY1='5'
@@ -68,7 +68,7 @@ def selected_date():
     open_calendar = wait.until(
         EC.element_to_be_clickable((By.CLASS_NAME, "btn-reservation"))).click() 
     calendar = wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "calendar-container")))
-    time.sleep(1)
+    time.sleep(0.6)
     
     # 원하는 월로 이동하기
     while True:
@@ -86,7 +86,7 @@ def selected_date():
         EC.element_to_be_clickable((By.CLASS_NAME,'mbsc-calendar-button.custom-next.mbsc-reset.mbsc-font.mbsc-button.mbsc-windows.mbsc-ltr.mbsc-button-flat.mbsc-icon-button'))).click()
 
     # 원하는 날짜로 이동하기
-    time.sleep(1)
+    time.sleep(0.6)
     cur_table = driver.find_element(By.CLASS_NAME,'mbsc-calendar-table.mbsc-flex-col.mbsc-flex-1-1.mbsc-calendar-table-active')
     rows = cur_table.find_elements(By.CLASS_NAME,'mbsc-calendar-row.mbsc-flex.mbsc-flex-1-0')
     personal_cnt_list = driver.find_element(By.ID,'optionPersonalCntList')
@@ -120,6 +120,7 @@ def selected_date():
 def wait_booking(booking_date1,booking_date2):
     flag = 0
     timetable_list = 0
+    timetable_list_items=0
     while True:
         try:
             print("try")
@@ -129,20 +130,22 @@ def wait_booking(booking_date1,booking_date2):
             elif flag == 1:
                 booking_date2.click()
                 flag = 0
-            time.sleep(0.3)
-            timetable_list = driver.find_elements(By.CLASS_NAME,'time')
-            print('timerable_list:',len(timetable_list))
+            time.sleep(0.5)
+            timetable_list = driver.find_elements(By.CLASS_NAME,'timetable-list')
+            timetable_list_items = timetable_list[2].find_elements(By.CLASS_NAME,'timetable-list-item')
+            print('timetable_list_items:',len(timetable_list_items))
         except:
             time.sleep(0.2)
 
-        if timetable_list!=0:
+        if timetable_list!=0 and timetable_list_items!=0:
             break
-    if len(timetable_list) > 0:
-        for item in timetable_list :
-            if item.is_displayed() :
-                ActionChains(driver).move_to_element(item).click().perform()
-                break
-    
+
+    for item in timetable_list_items:
+        print(item.text)
+        if len(item.text) > 0:
+
+            ActionChains(driver).move_to_element(item).click().perform()
+            break
 
         # time.sleep(1)
         # # print('button Text:',button.text)
@@ -159,6 +162,10 @@ def main():
     [booking_date1,booking_date2]=selected_date()
     print(booking_date1.text,booking_date2.text)
     wait_booking(booking_date1,booking_date2)
+    open_calendar = wait.until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "btn.btn-lg.btn-red"))).click() 
+    open_calendar = wait.until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "btn.btn-lg.btn-red"))).click() 
     time.sleep(1000)
     
     # wait_booking()
