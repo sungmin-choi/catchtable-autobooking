@@ -13,7 +13,7 @@ import src.config as config
 import pyperclip
 
 # 아이디와 패스워드를 여기에 입력
-#다시
+#다시2
 ID = "namja306@naver.com"
 PW = "XXXXXX"
 LOGINURL = "https://app.catchtable.co.kr/ct/login"
