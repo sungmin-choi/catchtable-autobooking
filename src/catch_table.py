@@ -132,13 +132,14 @@ def wait_booking(booking_date1,booking_date2):
                 flag = 0
             time.sleep(0.5)
             timetable_list = driver.find_elements(By.CLASS_NAME,'timetable-list')
-            timetable_list_items = timetable_list[2].find_elements(By.CLASS_NAME,'timetable-list-item')
+            ## timetable_list[0] 매번 바뀜
+            timetable_list_items = timetable_list[0].find_elements(By.CLASS_NAME,'timetable-list-item')
             print('timetable_list_items:',len(timetable_list_items))
         except:
             time.sleep(0.2)
-
-        if timetable_list!=0 and len(timetable_list_items)>1:
-            break
+        if timetable_list!=0 and timetable_list_items!=0:
+            if len(timetable_list_items)>1:
+                break
 
     for item in timetable_list_items:
         print(item.text)
