@@ -17,12 +17,12 @@ import pyperclip
 ID = "namja306@naver.com"
 PW = "XXXXXX"
 LOGINURL = "https://app.catchtable.co.kr/ct/login"
-URL = "https://app.catchtable.co.kr/ct/shop/isokwoohwa"
+URL = "https://app.catchtable.co.kr/ct/shop/sushidawn"
 # 월 은 숫자뒤에 '월' 자도 부텨주세요 예) 11월, 12월, 1월 
-BOOKING_MONTH='1월'
-BOOKING_DAY1='28'
-BOOKING_DAY2='29'
-BOOKING_PERSONAL_CNT = '3명'
+BOOKING_MONTH='12월'
+BOOKING_DAY1='21'
+BOOKING_DAY2='22'
+BOOKING_PERSONAL_CNT = '2명'
 
 now = datetime.now()
 options = Options()
@@ -136,7 +136,7 @@ def wait_booking(booking_date1,booking_date2):
             timetable_list_items = timetable_list[0].find_elements(By.CLASS_NAME,'timetable-list-item')
             print('timetable_list_items:',len(timetable_list_items))
         except:
-            time.sleep(0.2)
+            time.sleep(0.5)
         if timetable_list!=0 and timetable_list_items!=0:
             if len(timetable_list_items)>1:
                 break
